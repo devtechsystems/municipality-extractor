@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import yaml
 
 # URL of the Wikipedia page
 url = 'https://en.wikipedia.org/wiki/Municipalities_of_Honduras'
@@ -19,4 +20,13 @@ for row in table.find_all('tr')[1:]:
         municipality_name = cells[0].text.strip()
         municipalities.append(municipality_name)
 
-print(municipalities)
+# Export to txt file
+with open('honduras_municipalities.txt', 'w', encoding='utf-8') as f:
+    f.write(str(municipalities))
+
+# Export to yml file
+yaml_data = {'municipalities': municipalities}
+with open('honduras_municipalities.yml', 'w', encoding='utf-8') as f:
+    yaml.dump(yaml_data, f, allow_unicode=True)
+
+print(f"Exported {len(municipalities)} municipalities to honduras_municipalities.txt and honduras_municipalities.yml")
